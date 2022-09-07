@@ -1,15 +1,22 @@
 <template>
   <div class="home">
-    <ul class="locations">
+    <settings />
+
+    <transition-group
+      name="list"
+      class="locations"
+      tag="ul"
+    >
       <li
-        v-for="weather in store.state.weather"
+        v-for="(weather, index) in store.state.weather"
+        :key="index"
         class="locations__item"
       >
         <widget-item
           :data="weather"
         />
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
@@ -17,6 +24,7 @@
 import { onMounted } from 'vue';
 import { useStore } from 'vuex';
 import WidgetItem from '@/components/WidgetItem.vue';
+import Settings from '@/components/Settings.vue';
 
 let store = useStore();
 
@@ -25,14 +33,39 @@ onMounted(() => {
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.list-move,
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
 .home {
+  max-width: 335px;
   margin: 0 auto;
   padding-top: 20px;
+  padding-bottom: 20px;
+
+  @media ('min-width: 1280px') {
+    max-width: 685px;
+  }
+
+  &__preloader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+  }
 }
 
 .locations {
-  max-width: 335px;
   margin: 0 auto;
   padding: 0;
 
@@ -43,14 +76,16 @@ onMounted(() => {
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
-
-    max-width: 685px;
   }
 
   &__item {
     margin-bottom: 15px;
 
     &:last-child {
+      margin-bottom: 0;
+    }
+
+    @media ('min-width: 1280px') {
       margin-bottom: 0;
     }
   }
