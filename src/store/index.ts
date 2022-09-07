@@ -1,9 +1,9 @@
 import { createStore } from 'vuex';
-import { LocationInterface, WeatherInterface } from '@/interfaces';
+import { LocationInterface, WeatherInterface, SwapLocations } from '@/interfaces';
 
 interface Store {
-  locations: Array<any>,
-  weather: Array<any>,
+  locations: Array<LocationInterface>,
+  weather: Array<WeatherInterface>,
   error: boolean,
   loading: boolean,
 }
@@ -18,7 +18,7 @@ export default createStore<Store>({
   getters: {
   },
   mutations: {
-    SET_LOCATIONS(state, payload: string) {
+    SET_LOCATIONS(state, payload: LocationInterface) {
       state.locations.push(payload);
     },
     DELETE_LOCATION(state, payload: number) {
@@ -26,6 +26,13 @@ export default createStore<Store>({
     },
     SET_WEATHER(state, payload: WeatherInterface) {
       state.weather.push(payload);
+    },
+    SWAP_WEATHER(state, payload: SwapLocations) {
+      let { oldIndex, newIndex } = payload;
+
+      let weather = state.weather[oldIndex];
+      state.weather[oldIndex] = state.weather[newIndex];
+      state.weather[newIndex] = weather;
     },
     DELETE_WEATHER(state, payload: number) {
       state.weather.splice(payload, 1);

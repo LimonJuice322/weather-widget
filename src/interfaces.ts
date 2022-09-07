@@ -21,3 +21,8 @@ export interface WeatherInterface {
     country: string,
   }
 }
+
+export interface SwapLocations {
+  oldIndex: number,
+  newIndex: number,
+}
