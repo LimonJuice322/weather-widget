@@ -3,6 +3,7 @@
     <settings />
 
     <transition-group
+      v-if="!store.state.loading"
       name="list"
       class="locations"
       tag="ul"
@@ -17,6 +18,11 @@
         />
       </li>
     </transition-group>
+
+    <Preloader
+      v-else
+      class="home__preloader"
+    />
   </div>
 </template>
 
@@ -25,6 +31,7 @@ import { onMounted } from 'vue';
 import { useStore } from 'vuex';
 import WidgetItem from '@/components/WidgetItem.vue';
 import Settings from '@/components/Settings.vue';
+import Preloader from '@/components/Preloader.vue';
 
 let store = useStore();
 
