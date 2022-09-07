@@ -3,6 +3,7 @@ import { WeatherInterface } from '@/interfaces';
 import PressureIcon from '@/assets/icons/pressure.svg';
 import HumidityIcon from '@/assets/icons/humidity.svg';
 import WindIcon from '@/assets/icons/wind.svg';
+import ArrowIcon from '@/assets/icons/arrow.svg';
 import VisibilityIcon from '@/assets/icons/visibility.svg';
 
 defineProps<{
@@ -46,6 +47,10 @@ function formatText(text: string) {
             <span class="weather__feature-text">
               {{ data.info.wind }} m/s
             </span>
+            <ArrowIcon
+              class="weather__wind-rotation"
+              :style="`transform: rotate(${data.info.wind_rotation}deg)`"
+            />
           </div>
         </li>
 
@@ -82,6 +87,10 @@ function formatText(text: string) {
 
 <style lang="scss" scoped>
 .location {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
   padding: 12px;
 
   border: 2px solid lightgray;
@@ -99,6 +108,10 @@ function formatText(text: string) {
 }
 
 .weather {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+
   &__main {
     display: flex;
     align-items: center;
@@ -128,7 +141,7 @@ function formatText(text: string) {
     grid-template-columns: 1fr 1fr;
     gap: 10px;
 
-    margin: 0;
+    margin: auto 0 0 0;
     padding: 0;
 
     list-style-type: none;
@@ -152,6 +165,16 @@ function formatText(text: string) {
     &-text {
       font-weight: 500;
     }
+  }
+
+  &__wind-rotation {
+    $size: 18px;
+
+    width: $size;
+    height: $size;
+    margin-left: 8px;
+
+    color: gray;
   }
 }
 </style>

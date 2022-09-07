@@ -121,6 +121,7 @@ export default createStore<Store>({
             humidity: data.main.humidity,
             pressure: data.main.pressure,
             wind: data.wind.speed,
+            wind_rotation: data.wind.deg,
             visibility: data.visibility,
           },
           location: {

@@ -80,7 +80,7 @@ onMounted(() => {
 
   @media ('min-width: 1280px') {
     display: grid;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: auto auto;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
   }

@@ -13,6 +13,7 @@ export interface WeatherInterface {
   info: {
     humidity: number,
     wind: number,
+    wind_rotation: number,
     pressure: number,
     visibility: number,
   },
