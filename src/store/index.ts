@@ -21,8 +21,14 @@ export default createStore<Store>({
     SET_LOCATIONS(state, payload: string) {
       state.locations.push(payload);
     },
+    DELETE_LOCATION(state, payload: number) {
+      state.locations.splice(payload, 1);
+    },
     SET_WEATHER(state, payload: WeatherInterface) {
       state.weather.push(payload);
+    },
+    DELETE_WEATHER(state, payload: number) {
+      state.weather.splice(payload, 1);
     },
     SET_LOADING(state, payload) {
       state.loading = payload;
@@ -35,11 +41,14 @@ export default createStore<Store>({
     getData({ commit }) {
       if (localStorage.getItem('userLocations')) {
         let locations = JSON.parse(localStorage.getItem('userLocations')!);
-        commit('SET_LOCATIONS', ...locations);
+
+        for (let location of locations) {
+          commit('SET_LOCATIONS', location);
+        }
       }
     },
-    saveData({ commit }, data) {
-      localStorage.setItem('userLocations', JSON.stringify(data));
+    saveData({ state }) {
+      localStorage.setItem('userLocations', JSON.stringify(state.locations));
     },
     async getUserLocation({ commit, dispatch, state }) {
       dispatch('getData');
@@ -58,7 +67,7 @@ export default createStore<Store>({
           commit('SET_LOCATIONS', location);
           dispatch('saveData', state.locations);
 
-          let weather = await dispatch('getWeather', location);
+          const weather = await dispatch('getWeather', location);
 
           commit('SET_WEATHER', weather);
         } catch(e) {
@@ -72,7 +81,7 @@ export default createStore<Store>({
           commit('SET_LOADING', true);
 
           for (let location of state.locations) {
-            let weather = await dispatch('getWeather', location);
+            const weather = await dispatch('getWeather', location);
 
             commit('SET_WEATHER', weather);
           }
@@ -89,6 +98,10 @@ export default createStore<Store>({
         let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=metric&id=524901&appid=c6fa77b8ad28fa4cfaed09dcca269e7c`);
 
         let data = await response.json();
+
+        if (data.sys.country !== country) {
+          return;
+        }
 
         let weather: WeatherInterface = {
           main: {
