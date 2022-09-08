@@ -1,7 +1,14 @@
 const { defineConfig } = require('@vue/cli-service');
 module.exports = defineConfig({
   transpileDependencies: true,
-
+  css: {
+    extract: false
+  },
+  configureWebpack: {
+    optimization: {
+      splitChunks: false
+    },
+  },
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg');
     svgRule.uses.clear();

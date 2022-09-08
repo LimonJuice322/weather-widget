@@ -10,6 +10,7 @@
     "normalize.css": "^8.0.1",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
+    "vue-custom-element": "^3.3.0",
     "vue-router": "^4.0.3",
     "vue-svg-loader": "^0.17.0-beta.2",
     "vue-template-compiler": "^2.7.8",
